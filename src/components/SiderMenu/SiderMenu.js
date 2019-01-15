@@ -10,14 +10,14 @@ const BaseMenu = React.lazy(() => import('./BaseMenu'));
 const { Sider } = Layout;
 
 export default class SiderMenu extends PureComponent {
-  constructor(props) {
+  constructor (props) {
     super(props);
     this.state = {
       openKeys: getDefaultCollapsedSubMenus(props),
     };
   }
 
-  static getDerivedStateFromProps(props, state) {
+  static getDerivedStateFromProps (props, state) {
     const { pathname } = state;
     if (props.location.pathname !== pathname) {
       return {
@@ -44,42 +44,36 @@ export default class SiderMenu extends PureComponent {
       openKeys: moreThanOne ? [openKeys.pop()] : [...openKeys],
     });
   };
-  render() {
+  render () {
     const { logo, collapsed, onCollapse, fixSiderbar, theme } = this.props;
     const { openKeys } = this.state;
     const defaultProps = collapsed ? {} : { openKeys };
-    const menuHeight = `${document.body.clientHeight - 69}px`;
+    const menuHeight = `${ document.body.clientHeight - 69 }px`;
     const siderClassName = classNames(styles.sider, {
       [styles.fixSiderbar]: fixSiderbar,
       [styles.light]: theme === 'light',
     });
     return (
       <Sider
-        trigger={null}
+        trigger={ null }
         collapsible
-        collapsed={collapsed}
+        collapsed={ collapsed }
         breakpoint="lg"
-        onCollapse={onCollapse}
-        width={256}
-        theme={theme}
-        className={siderClassName}
+        onCollapse={ onCollapse }
+        width={ 256 }
+        theme={ theme }
+        className={ siderClassName }
       >
-        <div className={styles.logo} id="logo">
-          <Link to="/">
-            <img src={logo} alt="logo" />
-            <h1>Ant Design Pro</h1>
-          </Link>
-        </div>
-        <div style={{ width: '100%', overflow: 'hidden' }}>
-          <div style={{ width: '120%', overflowY: 'auto', height: menuHeight }}>
-            <Suspense fallback={<PageLoading />}>
+        <div style={ { width: '100%', overflow: 'hidden' } }>
+          <div style={ { width: '120%', overflowY: 'auto', height: menuHeight } }>
+            <Suspense fallback={ <PageLoading /> }>
               <BaseMenu
-                {...this.props}
+                { ...this.props }
                 mode="inline"
-                handleOpenChange={this.handleOpenChange}
-                onOpenChange={this.handleOpenChange}
-                style={{ padding: '16px 0', overflow: 'hidden', width: '83.333%' }}
-                {...defaultProps}
+                handleOpenChange={ this.handleOpenChange }
+                onOpenChange={ this.handleOpenChange }
+                style={ { padding: '16px 0', overflow: 'hidden', width: '83.333%' } }
+                { ...defaultProps }
               />
             </Suspense>
           </div>

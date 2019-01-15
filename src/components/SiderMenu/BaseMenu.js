@@ -15,11 +15,11 @@ const { SubMenu } = Menu;
 //   icon: <Icon type="setting" />,
 const getIcon = icon => {
   if (typeof icon === 'string' && isUrl(icon)) {
-    return <img src={icon} alt="icon" className={styles.icon} />;
+    return <img src={ icon } alt="icon" className={ styles.icon } />;
   }
   if (typeof icon === 'string') {
-    icon = `icon ${icon}`;
-    return <i className={icon} />;
+    icon = `icon ${ icon }`;
+    return <i className={ icon } />;
   }
   return icon;
 };
@@ -57,20 +57,20 @@ export default class BaseMenu extends PureComponent {
           title={
             item.icon ? (
               <span>
-                {getIcon(item.icon)}
-                <span>{name}</span>
+                { getIcon(item.icon) }
+                <span>{ name }</span>
               </span>
             ) : (
-              name
-            )
+                name
+              )
           }
-          key={item.name + item.location}
+          key={ item.name + item.location }
         >
-          {this.getNavMenuItems(item.children)}
+          { this.getNavMenuItems(item.children) }
         </SubMenu>
       );
     }
-    return <Menu.Item key={item.path}>{this.getMenuItemPath(item)}</Menu.Item>;
+    return <Menu.Item key={ item.path }>{ this.getMenuItemPath(item) }</Menu.Item>;
   };
 
   /**
@@ -87,28 +87,30 @@ export default class BaseMenu extends PureComponent {
     // Is it a http link
     if (/^https?:\/\//.test(itemPath)) {
       return (
-        <a href={itemPath} target={target}>
-          {icon}
-          <span>{name}</span>
+        <a href={ itemPath } target={ target }>
+          { icon }
+          <span>{ name }</span>
         </a>
       );
     }
     const { location, isMobile, onCollapse } = this.props;
     return (
       <Link
-        to={itemPath}
-        target={target}
-        replace={itemPath === location.pathname}
+        to={ itemPath }
+        target={ target }
+        replace={ itemPath === location.pathname }
         onClick={
           isMobile
             ? () => {
-                onCollapse(true);
-              }
-            : undefined
+              onCollapse(true);
+            }
+            : () => {
+              sessionStorage.setItem('curmenu', itemPath)
+            }
         }
       >
-        {icon}
-        <span>{name}</span>
+        { icon }
+        <span>{ name }</span>
       </Link>
     );
   };
@@ -117,10 +119,10 @@ export default class BaseMenu extends PureComponent {
     if (path && path.indexOf('http') === 0) {
       return path;
     }
-    return `/${path || ''}`.replace(/\/+/g, '/');
+    return `/${ path || '' }`.replace(/\/+/g, '/');
   };
 
-  render() {
+  render () {
     const {
       openKeys,
       theme,
@@ -148,15 +150,15 @@ export default class BaseMenu extends PureComponent {
     return (
       <Menu
         key="Menu"
-        mode={mode}
-        theme={theme}
-        onOpenChange={handleOpenChange}
-        selectedKeys={selectedKeys}
-        style={style}
-        className={cls}
-        {...props}
+        mode={ mode }
+        theme={ theme }
+        onOpenChange={ handleOpenChange }
+        selectedKeys={ selectedKeys }
+        style={ style }
+        className={ cls }
+        { ...props }
       >
-        {this.getNavMenuItems(menuData)}
+        { this.getNavMenuItems(menuData) }
       </Menu>
     );
   }

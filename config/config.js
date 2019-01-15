@@ -4,7 +4,7 @@ import pageRoutes from './router.config';
 import webpackPlugin from './plugin.config';
 import defaultSettings from '../src/defaultSettings';
 import slash from 'slash2';
-
+let host = 'https://yc.yonyoucloud.com'
 const plugins = [
   [
     'umi-plugin-react',
@@ -30,12 +30,12 @@ const plugins = [
       },
       ...(!process.env.TEST && os.platform() === 'darwin'
         ? {
-            dll: {
-              include: ['dva', 'dva/router', 'dva/saga', 'dva/fetch'],
-              exclude: ['@babel/runtime'],
-            },
-            hardSource: false,
-          }
+          dll: {
+            include: ['dva', 'dva/router', 'dva/saga', 'dva/fetch'],
+            exclude: ['@babel/runtime'],
+          },
+          hardSource: false,
+        }
         : {}),
     },
   ],
@@ -74,23 +74,51 @@ export default {
   },
   proxy: {
     '/yuncai': {
-      target: 'https://yc.yonyoucloud.com/',
+      target: host,
       changeOrigin: true,
     },
     '/workbench': {
-      target: 'https://yc.yonyoucloud.com/',
+      target: host,
       changeOrigin: true,
     },
     '/cpu-cdn': {
-      target: 'https://yc.yonyoucloud.com/',
+      target: host,
       changeOrigin: true,
     },
     '/cpu-portal-fe': {
-      target: 'https://yc.yonyoucloud.com/',
+      target: host,
       changeOrigin: true,
     },
     '/cpu-dashboard-fe': {
-      target: 'https://yc.yonyoucloud.com/',
+      target: host,
+      changeOrigin: true,
+    },
+    '/cpu-projboard-fe': {
+      target: host,
+      changeOrigin: true,
+    },
+    '/cpu-fe-contract': {
+      target: host,
+      changeOrigin: true,
+    },
+    '/cpu-fe-bid': {
+      target: host,
+      changeOrigin: true,
+    },
+    '/cpu-fe': {
+      target: host,
+      changeOrigin: true,
+    },
+    '/cpu-fe-tender': {
+      target: host,
+      changeOrigin: true,
+    },
+    '/cpu-material-fe': {
+      target: host,
+      changeOrigin: true,
+    },
+    '/gwmanage': {
+      target: host,
       changeOrigin: true,
     },
   },
@@ -116,7 +144,7 @@ export default {
           .split('/')
           .map(a => a.replace(/([A-Z])/g, '-$1'))
           .map(a => a.toLowerCase());
-        return `antd-pro${arr.join('-')}-${localName}`.replace(/--/g, '-');
+        return `antd-pro${ arr.join('-') }-${ localName }`.replace(/--/g, '-');
       }
       return localName;
     },

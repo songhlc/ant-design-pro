@@ -51,13 +51,13 @@ const query = {
 };
 
 class BasicLayout extends React.PureComponent {
-  constructor(props) {
+  constructor (props) {
     super(props);
     this.getPageTitle = memoizeOne(this.getPageTitle);
     this.matchParamsPath = memoizeOne(this.matchParamsPath, isEqual);
   }
 
-  componentDidMount() {
+  componentDidMount () {
     const {
       dispatch,
       route: { routes, authority },
@@ -74,7 +74,7 @@ class BasicLayout extends React.PureComponent {
     });
   }
 
-  componentDidUpdate(preProps) {
+  componentDidUpdate (preProps) {
     // After changing to phone mode,
     // if collapsed is true, you need to click twice to display
     const { collapsed, isMobile } = this.props;
@@ -83,7 +83,7 @@ class BasicLayout extends React.PureComponent {
     }
   }
 
-  getContext() {
+  getContext () {
     const { location, breadcrumbNameMap } = this.props;
     return {
       location,
@@ -123,7 +123,7 @@ class BasicLayout extends React.PureComponent {
       defaultMessage: currRouterData.name,
     });
 
-    return `${pageName} - ${title}`;
+    return `${ pageName } - ${ title }`;
   };
 
   getLayoutStyle = () => {
@@ -153,7 +153,7 @@ class BasicLayout extends React.PureComponent {
     return <SettingDrawer />;
   };
 
-  render() {
+  render () {
     const {
       navTheme,
       layout: PropsLayout,
@@ -171,32 +171,32 @@ class BasicLayout extends React.PureComponent {
     const contentStyle = !fixedHeader ? { paddingTop: 0 } : {};
     const layout = (
       <Layout>
-        {isTop && !isMobile ? null : (
+        { isTop && !isMobile ? null : (
           <SiderMenu
-            logo={logo}
-            theme={navTheme}
-            onCollapse={this.handleMenuCollapse}
-            menuData={menuData}
-            isMobile={isMobile}
-            {...this.props}
+            logo={ logo }
+            theme={ navTheme }
+            onCollapse={ this.handleMenuCollapse }
+            menuData={ menuData }
+            isMobile={ isMobile }
+            { ...this.props }
           />
-        )}
+        ) }
         <Layout
-          style={{
+          style={ {
             ...this.getLayoutStyle(),
             minHeight: '100vh',
-          }}
+          } }
         >
           <Header
-            menuData={menuData}
-            handleMenuCollapse={this.handleMenuCollapse}
-            logo={logo}
-            isMobile={isMobile}
-            {...this.props}
+            menuData={ menuData }
+            handleMenuCollapse={ this.handleMenuCollapse }
+            logo={ logo }
+            isMobile={ isMobile }
+            { ...this.props }
           />
-          <Content className={styles.content} style={contentStyle}>
-            <Authorized authority={routerConfig} noMatch={<Exception403 />}>
-              {children}
+          <Content className={ styles.content } style={ contentStyle }>
+            <Authorized authority={ routerConfig } noMatch={ <Exception403 /> }>
+              { children }
             </Authorized>
           </Content>
           <Footer />
@@ -205,16 +205,16 @@ class BasicLayout extends React.PureComponent {
     );
     return (
       <React.Fragment>
-        <DocumentTitle title={this.getPageTitle(pathname, breadcrumbNameMap)}>
-          <ContainerQuery query={query}>
-            {params => (
-              <Context.Provider value={this.getContext()}>
-                <div className={classNames(params)}>{layout}</div>
+        <DocumentTitle title={ this.getPageTitle(pathname, breadcrumbNameMap) }>
+          <ContainerQuery query={ query }>
+            { params => (
+              <Context.Provider value={ this.getContext() }>
+                <div className={ classNames(params) }>{ layout }</div>
               </Context.Provider>
-            )}
+            ) }
           </ContainerQuery>
         </DocumentTitle>
-        <Suspense fallback={<PageLoading />}>{this.renderSettingDrawer()}</Suspense>
+        <Suspense fallback={ <PageLoading /> }>{ this.renderSettingDrawer() }</Suspense>
       </React.Fragment>
     );
   }
@@ -228,6 +228,6 @@ export default connect(({ global, setting, menu }) => ({
   ...setting,
 }))(props => (
   <Media query="(max-width: 599px)">
-    {isMobile => <BasicLayout {...props} isMobile={isMobile} />}
+    { isMobile => <BasicLayout { ...props } isMobile={ isMobile } /> }
   </Media>
 ));
