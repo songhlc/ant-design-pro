@@ -48,7 +48,7 @@ const cachedSave = (response) => {
     response
       .clone()
       .text()
-      .then(（() => {
+      .then(() => {
         // sessionStorage.setItem(hashcode, content);
         // sessionStorage.setItem(`${hashcode}:timestamp`, Date.now());
       });
