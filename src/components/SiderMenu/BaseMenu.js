@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import classNames from 'classnames';
-import { Menu, Icon } from 'antd';
+import { Menu } from 'antd';
 import Link from 'umi/link';
 import { urlToList } from '../_utils/pathTools';
 import { getMenuMatches } from './SiderMenuUtils';
@@ -18,7 +18,8 @@ const getIcon = icon => {
     return <img src={icon} alt="icon" className={styles.icon} />;
   }
   if (typeof icon === 'string') {
-    return <Icon type={icon} />;
+    icon = `icon ${icon}`;
+    return <i className={icon} />;
   }
   return icon;
 };
@@ -63,7 +64,7 @@ export default class BaseMenu extends PureComponent {
               name
             )
           }
-          key={item.path}
+          key={item.name + item.location}
         >
           {this.getNavMenuItems(item.children)}
         </SubMenu>
@@ -79,9 +80,10 @@ export default class BaseMenu extends PureComponent {
    */
   getMenuItemPath = item => {
     const { name } = item;
-    const itemPath = this.conversionPath(item.path);
+    const itemPath = this.conversionPath(item.location);
     const icon = getIcon(item.icon);
-    const { target } = item;
+    // const { target } = item;
+    const target = 'frame';
     // Is it a http link
     if (/^https?:\/\//.test(itemPath)) {
       return (

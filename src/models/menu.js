@@ -1,37 +1,23 @@
 import memoizeOne from 'memoize-one';
 import isEqual from 'lodash/isEqual';
-import { formatMessage } from 'umi/locale';
 import Authorized from '@/utils/Authorized';
+import { query as queryMenu } from '@/services/menu';
 
 const { check } = Authorized;
 
 // Conversion router to menu.
-function formatter(data, parentAuthority, parentName) {
+function formatter(data, parentAuthority) {
   return data
     .map(item => {
-      if (!item.name || !item.path) {
+      if (!item.name || !item.location) {
         return null;
       }
-
-      let locale = 'menu';
-      if (parentName) {
-        locale = `${parentName}.${item.name}`;
-      } else {
-        locale = `menu.${item.name}`;
-      }
-
       const result = {
         ...item,
-        name: formatMessage({ id: locale, defaultMessage: item.name }),
-        locale,
+        name: item.name,
+        children: item.children,
         authority: item.authority || parentAuthority,
       };
-      if (item.routes) {
-        const children = formatter(item.routes, item.authority, locale);
-        // Reduce memory usage
-        result.children = children;
-      }
-      delete result.routes;
       return result;
     })
     .filter(item => item);
@@ -85,8 +71,6 @@ const getBreadcrumbNameMap = menuData => {
   return routerMap;
 };
 
-const memoizeOneGetBreadcrumbNameMap = memoizeOne(getBreadcrumbNameMap, isEqual);
-
 export default {
   namespace: 'menu',
 
@@ -96,13 +80,13 @@ export default {
   },
 
   effects: {
-    *getMenuData({ payload }, { put }) {
-      const { routes, authority } = payload;
-      const menuData = filterMenuData(memoizeOneFormatter(routes, authority));
-      const breadcrumbNameMap = memoizeOneGetBreadcrumbNameMap(menuData);
+    *getMenuData({ payload }, { call, put }) {
+      const { authority } = payload;
+      let menus = yield call(queryMenu);
+      const menuData = filterMenuData(memoizeOneFormatter(menus.data, authority));
       yield put({
         type: 'save',
-        payload: { menuData, breadcrumbNameMap },
+        payload: { menuData },
       });
     },
   },

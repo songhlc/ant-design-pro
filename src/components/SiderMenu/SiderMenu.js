@@ -44,12 +44,11 @@ export default class SiderMenu extends PureComponent {
       openKeys: moreThanOne ? [openKeys.pop()] : [...openKeys],
     });
   };
-
   render() {
     const { logo, collapsed, onCollapse, fixSiderbar, theme } = this.props;
     const { openKeys } = this.state;
     const defaultProps = collapsed ? {} : { openKeys };
-
+    const menuHeight = `${document.body.clientHeight - 69}px`;
     const siderClassName = classNames(styles.sider, {
       [styles.fixSiderbar]: fixSiderbar,
       [styles.light]: theme === 'light',
@@ -71,16 +70,20 @@ export default class SiderMenu extends PureComponent {
             <h1>Ant Design Pro</h1>
           </Link>
         </div>
-        <Suspense fallback={<PageLoading />}>
-          <BaseMenu
-            {...this.props}
-            mode="inline"
-            handleOpenChange={this.handleOpenChange}
-            onOpenChange={this.handleOpenChange}
-            style={{ padding: '16px 0', width: '100%' }}
-            {...defaultProps}
-          />
-        </Suspense>
+        <div style={{ width: '100%', overflow: 'hidden' }}>
+          <div style={{ width: '120%', overflowY: 'auto', height: menuHeight }}>
+            <Suspense fallback={<PageLoading />}>
+              <BaseMenu
+                {...this.props}
+                mode="inline"
+                handleOpenChange={this.handleOpenChange}
+                onOpenChange={this.handleOpenChange}
+                style={{ padding: '16px 0', overflow: 'hidden', width: '83.333%' }}
+                {...defaultProps}
+              />
+            </Suspense>
+          </div>
+        </div>
       </Sider>
     );
   }

@@ -72,13 +72,28 @@ export default {
   externals: {
     '@antv/data-set': 'DataSet',
   },
-  // proxy: {
-  //   '/server/api/': {
-  //     target: 'https://preview.pro.ant.design/',
-  //     changeOrigin: true,
-  //     pathRewrite: { '^/server': '' },
-  //   },
-  // },
+  proxy: {
+    '/yuncai': {
+      target: 'https://yc.yonyoucloud.com/',
+      changeOrigin: true,
+    },
+    '/workbench': {
+      target: 'https://yc.yonyoucloud.com/',
+      changeOrigin: true,
+    },
+    '/cpu-cdn': {
+      target: 'https://yc.yonyoucloud.com/',
+      changeOrigin: true,
+    },
+    '/cpu-portal-fe': {
+      target: 'https://yc.yonyoucloud.com/',
+      changeOrigin: true,
+    },
+    '/cpu-dashboard-fe': {
+      target: 'https://yc.yonyoucloud.com/',
+      changeOrigin: true,
+    },
+  },
   ignoreMomentLocale: true,
   lessLoaderOptions: {
     javascriptEnabled: true,

@@ -28,7 +28,7 @@ const checkStatus = response => {
   }
   const errortext = codeMessage[response.status] || response.statusText;
   notification.error({
-    message: `请求错误 ${response.status}: ${response.url}`,
+    message: `请求错误 ${ response.status }: ${ response.url }`,
     description: errortext,
   });
   const error = new Error(errortext);
@@ -37,7 +37,7 @@ const checkStatus = response => {
   throw error;
 };
 
-const cachedSave = (response, hashcode) => {
+const cachedSave = (response) => {
   /**
    * Clone a response data and store it in sessionStorage
    * Does not support data other than json, Cache only json
@@ -48,9 +48,9 @@ const cachedSave = (response, hashcode) => {
     response
       .clone()
       .text()
-      .then(content => {
-        sessionStorage.setItem(hashcode, content);
-        sessionStorage.setItem(`${hashcode}:timestamp`, Date.now());
+      .then(（() => {
+        // sessionStorage.setItem(hashcode, content);
+        // sessionStorage.setItem(`${hashcode}:timestamp`, Date.now());
       });
   }
   return response;
@@ -63,7 +63,7 @@ const cachedSave = (response, hashcode) => {
  * @param  {object} [option] The options we want to pass to "fetch"
  * @return {object}           An object containing either "data" or "err"
  */
-export default function request(url, option) {
+export default function request (url, option) {
   const options = {
     expirys: isAntdPro(),
     ...option,
@@ -107,7 +107,7 @@ export default function request(url, option) {
   // options.expirys !== false, return the cache,
   if (options.expirys !== false) {
     const cached = sessionStorage.getItem(hashcode);
-    const whenCached = sessionStorage.getItem(`${hashcode}:timestamp`);
+    const whenCached = sessionStorage.getItem(`${ hashcode }:timestamp`);
     if (cached !== null && whenCached !== null) {
       const age = (Date.now() - whenCached) / 1000;
       if (age < expirys) {
@@ -115,7 +115,7 @@ export default function request(url, option) {
         return response.json();
       }
       sessionStorage.removeItem(hashcode);
-      sessionStorage.removeItem(`${hashcode}:timestamp`);
+      sessionStorage.removeItem(`${ hashcode }:timestamp`);
     }
   }
   return fetch(url, newOptions)
